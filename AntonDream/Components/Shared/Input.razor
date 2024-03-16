@@ -1,0 +1,55 @@
+﻿@inject IDreamService DreamService
+@inject NavigationManager NavigationManager
+
+<div class="container">
+    <EditForm Model="dream" OnValidSubmit="Submit">
+        <div class="row" style="margin-bottom: 20px;">
+            <label>
+                Okay! I trust you! <br />
+                You can write your dream down :)
+            </label>
+        </div>
+        <div class="row" style="margin-bottom: 5px;">
+            <InputTextArea @bind-Value="dream.Text" />
+        </div>
+        <div class="row" style="text-align:right;">
+            <DataAnnotationsValidator />
+            <ValidationSummary class="list-unstyled"/>
+        </div>
+        <div class="row justify-content-center">
+            <button type="submit" class="btn btn-outline-dark btn-lg" style="width:123px; height:50px;" disabled="@isSubmitting">Submit</button>
+            @if (isSubmitting)
+            {
+                <p>Submitting your dream...</p>
+            }
+            @if (submissionFailed)
+            {
+                <p class="text-danger">Failed to submit your dream. Please try again.</p>
+            }
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private Dream dream = new Dream();
+    private bool isSubmitting = false;
+    private bool submissionFailed = false;
+
+    private async Task Submit()
+    {
+        isSubmitting = true;
+        submissionFailed = false;
+        dream.DatePosted = DateTime.Now;
+        var result = await DreamService.PostDreamAsync(dream);
+        isSubmitting = false;
+
+        if (result != null)
+        {
+            NavigationManager.NavigateTo("/", forceLoad: true);
+        }
+        else
+        {
+            submissionFailed = true;
+        }
+    }
+}

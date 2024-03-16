@@ -8,7 +8,7 @@
     {
         <div class="intro-text" style="font-size: 2.69vw;">Anton, welcome back, you are! Your dream, write down, you must!</div>
         <div class="button-container">
-            <button type="button" class="btn btn-outline-dark btn-lg" style="width:123px; height:50px;">Click me!</button>
+            <button type="button" @onclick="@(() => Modal.Show<Confirmation>(parameters, options))" class="btn btn-outline-dark btn-lg" style="width:123px; height:50px;">Click me!</button>
         </div>
     }
     else
@@ -16,19 +16,31 @@
         <div class="intro-text" style="font-size: 4.20vw;">
             Anton’s dream for today!
         </div>
-        <div class="dream-text">dream.Text</div>
+        <div class="dream-text">@dream.Text</div>
     }
 </div>
 
 @code {
+    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+    ModalParameters parameters = new ModalParameters()
+        .Add("Level", 0);
+    ModalOptions options = new ModalOptions()
+        {
+            HideCloseButton = true,
+            HideHeader = true
+        };
     private Dream? dream;
 
     protected override async Task OnInitializedAsync()
     {
-        Dream latestDream = await DreamService.GetLatestDreamAsync();
-        if (latestDream.DatePosted.Date == DateTime.Today)
+        Dream? latestDream = await DreamService.GetLatestDreamAsync();
+        if (latestDream?.DatePosted.Date == DateTime.Today)
         {
             dream = latestDream;
+        }
+        else
+        {
+            dream = null;
         }
     }
 }

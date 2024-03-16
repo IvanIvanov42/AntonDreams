@@ -1,0 +1,34 @@
+﻿<div class="question" style="margin-bottom:10px">@questions[Level]</div>
+<div class="answer">
+    <button type="button" @onclick="ShowModal" class="btn btn-outline-dark btn-lg" style="width:123px; height:50px;">@answers[Level]</button>
+</div>
+
+@code {
+    string[] questions = new string[4] { "Are you Anton?", "Siriasli?", "Siriosli?", "Siriusli?" };
+    string[] answers = new string[4] { "Yes", "Noo", "Nooo", "Nooo" };
+    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+    [CascadingParameter] BlazoredModalInstance CurrentModal { get; set; } = default!;
+    ModalOptions options = new ModalOptions()
+        {
+            HideCloseButton = true,
+            HideHeader = true
+        };
+    [Parameter] public int Level { get; set; }
+
+    private async Task ShowModal()
+    {
+        if (Level < 3)
+        {
+            var parameters = new ModalParameters()
+                .Add("Level", Level + 1);
+            await CurrentModal.CloseAsync();
+            Modal.Show<Confirmation>(parameters, options);
+        }
+        else
+        {
+            await CurrentModal.CloseAsync();
+            Modal.Show<Input>(options);
+        }
+    }
+}
+
