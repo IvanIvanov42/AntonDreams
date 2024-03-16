@@ -21,10 +21,20 @@ namespace AntonDream.Services
             return await _httpClient.GetFromJsonAsync<Dream>($"api/dream/{id}");
         }
 
-        public async Task<Dream> GetLatestDreamAsync()
+        public async Task<Dream?> GetLatestDreamAsync()
         {
-            return await _httpClient.GetFromJsonAsync<Dream>("api/dream/latest");
+            var response = await _httpClient.GetAsync("api/dream/latest");
+            if (response.IsSuccessStatusCode && response.Content.Headers.ContentLength > 0)
+            {
+                return await response.Content.ReadFromJsonAsync<Dream>();
+            }
+            else
+            {
+                return null;
+            }
         }
+
+
 
         public async Task<Dream> PostDreamAsync(Dream newDream)
         {
