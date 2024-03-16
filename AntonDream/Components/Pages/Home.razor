@@ -6,18 +6,22 @@
 <div class="content-container">
     @if (dream == null)
     {
-        <div class="intro-text">Anton, welcome back, you are. Your dream, write down, you must!</div>
-        <button class="btn btn-outline-dark btn-lg">Click me!</button>
+        <div class="intro-text" style="font-size: 3.21vw;">Anton, welcome back, you are. Your dream, write down, you must!</div>
+        <div class="button-container">
+            <button type="button" class="btn btn-outline-dark btn-lg" style="width:123px; height:50px;">Click me!</button>
+        </div>
     }
     else
     {
-        <div class="intro-text">Anton’s dream for today</div>
-        <div class="dream-text">@dream.Text</div>
+        <div class="intro-text" style="font-size: 4.20vw;">
+            Anton’s dream for today!
+        </div>
+        <div class="dream-text">dream.Text</div>
     }
 </div>
 
 @code {
-    private Dream dream;
+    private Dream? dream;
 
     protected override async Task OnInitializedAsync()
     {

@@ -1,5 +1,11 @@
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    height: 100%;
+}
+
+div {
+    justify-content: center;
+    text-align: center;
 }
 
 a, .btn-link {
