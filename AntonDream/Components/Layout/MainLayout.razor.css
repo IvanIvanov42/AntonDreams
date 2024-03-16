@@ -1,32 +1,6 @@
-.app {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
-
 .header {
-    text-align: center;
-    flex: 0 1 25%;
     max-height: 25vh;
     padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-}
-
-.main {
-    flex: 1;
-    overflow-y: auto;
-    max-height: 65vh;
-}
-
-.footer {
-    text-align: center;
-    flex: 0 1 10%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .header img {
