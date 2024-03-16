@@ -1,17 +1,30 @@
 ﻿@inherits LayoutComponentBase
+@inject IJSRuntime JS
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+<div class="app">
+    <div class="header">
+        <img src="images/AntonDream.svg" id="responsive-image" />
     </div>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+    <div class="main">
+        @Body
+    </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+    <div class="footer">
+        <div style="width:36px;">&nbsp;</div>
+        <div>
+            <h3>Copyright © 2024. All rights reserved.</h3>
+        </div>
+        <div>
+            <a href="https://www.facebook.com/Pumataaaa" target="_blank">
+                <img src="images/facebook.png" style="width:48px; height:auto;" />
+            </a>
+            <a href="https://www.twitch.tv/liondance" target="_blank">
+                <img src="images/twitch.png" style="width:48px; height:auto;" />
+            </a>
+            <a href="https://join.skype.com/invite/nqxWiLMoJEws" target="_blank">
+                <img src="images/skype.png" style="width:48px; height:auto;" />
+            </a>
+        </div>
+    </div>
 </div>

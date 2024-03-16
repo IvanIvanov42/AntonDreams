@@ -1,7 +1,31 @@
 ﻿@page "/"
+@inject IDreamService DreamService
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Welcome to Anton's world</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="content-container">
+    @if (dream == null)
+    {
+        <div class="intro-text">Anton, welcome back, you are. Your dream, write down, you must!</div>
+        <button class="btn btn-outline-dark btn-lg">Click me!</button>
+    }
+    else
+    {
+        <div class="intro-text">Anton’s dream for today</div>
+        <div class="dream-text">@dream.Text</div>
+    }
+</div>
 
-Welcome to your new app.
+@code {
+    private Dream dream;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Dream latestDream = await DreamService.GetLatestDreamAsync();
+        if (latestDream.DatePosted.Date == DateTime.Today)
+        {
+            dream = latestDream;
+        }
+    }
+}
+

@@ -1,9 +1,17 @@
 using AntonDream.Components;
+using AntonDream.Services.IServices;
+using AntonDream.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents();
+
+builder.Services.AddScoped<IDreamService, DreamService>();
+builder.Services.AddHttpClient<IDreamService, DreamService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7262/");
+});
 
 var app = builder.Build();
 
