@@ -5,7 +5,7 @@ namespace AntonApi.Models
     public class Dream
     {
         [Key]
-        public long Id { get; set; }
+        public int Id { get; set; }
         [Required]
         [MinLength(25)]
         public required string Text { get; set; }
