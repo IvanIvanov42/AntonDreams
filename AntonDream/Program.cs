@@ -1,11 +1,16 @@
 using AntonDream.Components;
 using AntonDream.Services.IServices;
 using AntonDream.Services;
+using Blazored.Modal;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents();
+builder.Services.AddRazorComponents()
+    .AddInteractiveWebAssemblyComponents()
+    .AddInteractiveServerComponents(); ;
+
+builder.Services.AddBlazoredModal();
 
 builder.Services.AddScoped<IDreamService, DreamService>();
 builder.Services.AddHttpClient<IDreamService, DreamService>(client =>
@@ -28,6 +33,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapRazorComponents<App>();
+app.MapRazorComponents<App>()
+    .AddInteractiveServerRenderMode()
+    .AddInteractiveWebAssemblyRenderMode();
 
 app.Run();
