@@ -1,0 +1,12 @@
+﻿@inject NavigationManager NavigationManager
+
+<h3>nakade ve?</h3>
+
+@code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await Task.Delay(3000);
+        NavigationManager.NavigateTo("/");
+    }
+}
