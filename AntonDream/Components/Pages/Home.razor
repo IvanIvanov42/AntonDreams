@@ -4,19 +4,45 @@
 <PageTitle>Welcome to Anton's world</PageTitle>
 
 <div class="content-container">
-    @if (dream == null)
+    @if (isInitialized)
     {
-        <div class="intro-text" style="font-size: 2.69vw;">Anton, welcome back, you are! Your dream, write down, you must!</div>
-        <div class="button-container">
-            <button type="button" @onclick="@(() => Modal.Show<Confirmation>(parameters, options))" class="btn btn-outline-dark btn-lg" style="width:123px; height:50px;">Click me!</button>
-        </div>
+        @if (dream == null)
+        {
+            <div class="intro-text" style="font-size: 2.69vw;">Anton, welcome back, you are! Your dream, write down, you must!</div>
+            <div class="button-container">
+                <button type="button" @onclick="@(() => Modal.Show<Confirmation>(parameters, options))" class="btn btn-outline-dark btn-lg" style="width:123px; height:50px;">Click me!</button>
+            </div>
+        }
+        else
+        {
+            <div class="intro-text" style="font-size: 4.20vw;">
+                Anton’s dream for today!
+            </div>
+            <div class="dream-text">@dream.Text</div>
+        }
     }
     else
     {
-        <div class="intro-text" style="font-size: 4.20vw;">
-            Anton’s dream for today!
+        <div class="button-container">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-border text-secondary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-border text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-border text-danger" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-border text-warning" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div class="spinner-border text-info" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
-        <div class="dream-text">@dream.Text</div>
     }
 </div>
 
@@ -30,18 +56,27 @@
             HideHeader = true
         };
     private Dream? dream;
+    private bool isInitialized = false;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        Dream? latestDream = await DreamService.GetLatestDreamAsync();
-        if (latestDream?.DatePosted.Date == DateTime.Today)
+        if (firstRender)
         {
-            dream = latestDream;
-        }
-        else
-        {
-            dream = null;
+            // Your initialization logic here
+            Dream? latestDream = await DreamService.GetLatestDreamAsync();
+            if (latestDream?.DatePosted.Date == DateTime.Today)
+            {
+                dream = latestDream;
+            }
+            else
+            {
+                dream = null;
+            }
+
+            isInitialized = true;
+            StateHasChanged(); // To force a UI refresh
         }
     }
+
 }
 
