@@ -1,5 +1,5 @@
 ﻿using AntonApi.Models;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AntonApi.Controllers
@@ -59,7 +59,36 @@ namespace AntonApi.Controllers
             return CreatedAtAction(nameof(GetDream), new { id = dream.Id }, dream);
         }
 
-        // DELETE: api/Dream/0
+        // PATCH: api/Dream/5
+        [HttpPatch("{id}")]
+        [Consumes("application/json-patch+json")]
+        public ActionResult<Dream> PatchDream(int id, [FromBody] JsonPatchDocument<Dream> patchDoc)
+        {
+            if (patchDoc == null)
+            {
+                return BadRequest();
+            }
+
+            var dream = _context.Dream.Find(id);
+            if (dream == null)
+            {
+                return NotFound();
+            }
+
+            patchDoc.ApplyTo(dream, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.SaveChanges();
+
+            return Ok(dream);
+        }
+
+
+        // DELETE: api/Dream/0  
         [HttpDelete("{id}")]
         public ActionResult DeleteDream(int id)
         {

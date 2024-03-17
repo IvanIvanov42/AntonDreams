@@ -7,7 +7,7 @@ namespace AntonApi.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        [MinLength(25)]
+        [MinLength(15)]
         public required string Text { get; set; }
         [Required]
         public DateTime DatePosted { get; set; }
